@@ -93,17 +93,13 @@ public class OkeyMain {
     
     /**
      * Verilen elin puanını hesaplar. Çok olursa daha iyi
-     * https://stackoverflow.com/questions/1683702/finding-if-a-valid-rummikub-solution-exist-from-selected-tiles
      * 
      * @return eldeki kullanılan taş sayısı
      */
     static int puanHesapla(int[] el) {
     	List<List<Integer>> seriler = butunSeriler(el);	//	seriler: aslında hem seriler hem gruplar
     	seriler.addAll(butunGruplar(el));
-    	for (List<Integer> list : seriler) {
-    		System.out.println("list: " + list);
-    	}
-    	
+
     	int max = 0;
     	for (List<Integer> list : seriler) {
     		List<Integer> elList = Arrays.stream(el).boxed().collect(Collectors.toList());
