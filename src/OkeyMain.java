@@ -36,13 +36,13 @@ public class OkeyMain {
         
         int[] puanlar = new int[4];
         System.out.println("1. oyuncu:\n" + Arrays.toString(p1));
-        puanlar[0] = puanHesapla(p1);
+        puanlar[0] = Math.max(puanHesapla(p1), ciftPuani(p1));
         System.out.println("2. oyuncu:\n" + Arrays.toString(p2));
-        puanlar[1] = puanHesapla(p2);
+        puanlar[1] = Math.max(puanHesapla(p2), ciftPuani(p2));
         System.out.println("3. oyuncu:\n" + Arrays.toString(p3));
-        puanlar[2] = puanHesapla(p3);
+        puanlar[2] = Math.max(puanHesapla(p3), ciftPuani(p3));
         System.out.println("4. oyuncu:\n" + Arrays.toString(p4));
-        puanlar[3] = puanHesapla(p4);
+        puanlar[3] = Math.max(puanHesapla(p4), ciftPuani(p4));
         
         System.out.println("Puanlar:");
         int birinci = -1;
@@ -55,6 +55,22 @@ public class OkeyMain {
         	System.out.println((j + 1) + ". oyuncu: " + puanlar[j] + " puan");
         }
         System.out.println("En iyi el " + (birinci + 1) + ". oyuncuda.");
+    }
+    
+    /**
+     * 
+     * @param el
+     * @return	Çifte giderse elin alacağı puan
+     */
+    static int ciftPuani(int[] el) {
+    	int cift = 0;
+    	for (int i = 1; i < el.length; i++) {
+    		if (el[i] == el[i - 1])
+    			cift++;
+    	}
+    	if (el[el.length - 1] == OK)
+    		cift++;
+    	return cift * 2;
     }
     
     /**
@@ -97,7 +113,7 @@ public class OkeyMain {
     		
     		int puan = puanHesapla(elList.stream().mapToInt(i -> i).toArray());
     		
-    		max = Math.max(puan + list.size(), max);;
+    		max = Math.max(puan + list.size(), max);
     	}
     	
     	return max;
@@ -107,14 +123,22 @@ public class OkeyMain {
     	List<List<Integer>> gruplar = new ArrayList<List<Integer>>();
     	for (int i = 0; i < 13; i++) {
     		gruplar.add(new ArrayList<Integer>());
+    		if (el[el.length - 1] == OK)
+    			gruplar.get(i).add(OK);
+    		if (el[el.length - 2] == OK)
+    			gruplar.get(i).add(OK);
     	}
     	
 		for (int i = 0; i < el.length; i++) {
 			if (!gruplar.get(el[i] % 13).contains(el[i]))
 				gruplar.get(el[i] % 13).add(el[i]);
     	}
+		
 		List<List<Integer>> ret = new ArrayList<List<Integer>>();
 		for (List<Integer> sayiGrubu : gruplar) {
+			while (sayiGrubu.size() > 4) {
+				sayiGrubu.remove(Integer.valueOf(OK));
+			}
 			if (sayiGrubu.size() >= 3)
 				ret.add(sayiGrubu);
 			if (sayiGrubu.size() == 4) {
@@ -148,7 +172,7 @@ public class OkeyMain {
     }
     
     /**
-     * Bütün serileri döner örn. 1 2 3, 6 7 8
+     * Bütün serileri döner örn. 1 2 3
      * @param el
      * @return
      */
@@ -166,12 +190,17 @@ public class OkeyMain {
     			
     			if (el[j] - 1 == el[j - 1])
     				dizi.add(el[j]);
+    			else if (el[j] - 2 == el[j - 1] && el[el.length - 1] == OK) {
+    				dizi.add(OK);
+    				dizi.add(el[j]);
+    			}
     			else if (el[j] == el[j - 1]) {
     				continue;
     			}
     			else 
     				break;
-    			//System.out.println(dizi);
+    			if (dizi.size() == 2 && el[el.length - 1] == OK)
+    				dizi.add(OK);
     			if (dizi.size() > 2) {
     				List<Integer> copy = new ArrayList<Integer>(dizi);
     				seriler.add(copy);
