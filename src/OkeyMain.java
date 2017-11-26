@@ -22,6 +22,7 @@ public class OkeyMain {
         int[] taslar = taslar_list.stream().mapToInt(i -> i).toArray();
         int gosterge = gostergeSec(taslar);
         okey = okeyBul(gosterge);
+        System.out.println("Okey: " + okey);
         /*  15 alacak olan arrayi rasgele seçmedim.	p1 arrayi 15 taş alıyor.
          *  Eller dağıtılacağı zaman oyuncu rasgele seçilebilir ve p1 arrayi ona verilir. Yani 1. oyuncu olmak zorunda değil.
          */
@@ -29,19 +30,21 @@ public class OkeyMain {
         int[] p2 = Arrays.copyOfRange(taslar, 15, 29);
         int[] p3 = Arrays.copyOfRange(taslar, 29, 43);
         int[] p4 = Arrays.copyOfRange(taslar, 43, 57);
+        System.out.println("1. oyuncu:\n" + Arrays.toString(p1));
+        System.out.println("2. oyuncu:\n" + Arrays.toString(p2));
+        System.out.println("3. oyuncu:\n" + Arrays.toString(p3));
+        System.out.println("4. oyuncu:\n" + Arrays.toString(p4));
+        
         p1 = okeyAyar(p1);
         p2 = okeyAyar(p2);
         p3 = okeyAyar(p3);
         p4 = okeyAyar(p4);
         
         int[] puanlar = new int[4];
-        System.out.println("1. oyuncu:\n" + Arrays.toString(p1));
+        
         puanlar[0] = Math.max(puanHesapla(p1), ciftPuani(p1));
-        System.out.println("2. oyuncu:\n" + Arrays.toString(p2));
         puanlar[1] = Math.max(puanHesapla(p2), ciftPuani(p2));
-        System.out.println("3. oyuncu:\n" + Arrays.toString(p3));
         puanlar[2] = Math.max(puanHesapla(p3), ciftPuani(p3));
-        System.out.println("4. oyuncu:\n" + Arrays.toString(p4));
         puanlar[3] = Math.max(puanHesapla(p4), ciftPuani(p4));
         
         System.out.println("Puanlar:");
